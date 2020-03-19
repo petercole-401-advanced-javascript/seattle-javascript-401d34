@@ -3,6 +3,7 @@ import './App.scss';
 
 import Header from '../Header'
 import PokemonList from '../PokemonList'
+import { If, Unless } from '../Conditionals'
 
 const POKEAPI_URL = 'https://pokeapi.co/api/v2/pokemon/'
 
@@ -46,10 +47,12 @@ class App extends React.Component {
         <button onClick={this.getManyPokemon}>Get Many Pokemon</button>
         <button onClick={this.getOnePokemon}>Get One Pokemon</button>
         Pokemon Number: <input onChange={this.handleChange} type="number" placeholder="1" />
-        {this.state.pokemon.length
-          ? <PokemonList content={this.state.pokemon} />
-          : null
-        }
+        <Unless condition={this.state.number > 0}>
+          <p className="error">Negative numbers or zero aren't allowed!</p>
+        </Unless>
+        <If condition={this.state.pokemon.length > 0}>
+          <PokemonList content={this.state.pokemon} />
+        </If>
       </div>
     );
   }

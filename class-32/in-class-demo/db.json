@@ -1,0 +1,53 @@
+{
+  "spells": [
+    {
+      "id": 1,
+      "name": "Wand-Lighting Charm",
+      "difficulty": "1",
+      "incantation": "Lumos",
+      "description": "Illuminates the tip of your wand"
+    },
+    {
+      "id": 2,
+      "name": "Disarming Spell",
+      "difficulty": "2",
+      "incantation": "Expelliarmus",
+      "description": "Knocks your opponent's wand out of their hand"
+    },
+    {
+      "id": 3,
+      "name": "Unlocking Charm",
+      "difficulty": "1",
+      "incantation": "Alohomora",
+      "description": "Unlocks a locked portal or door"
+    },
+    {
+      "name": "Summoning Charm",
+      "difficulty": "3",
+      "description": "Brings an object from elsewhere into your hand",
+      "incantation": "Accio",
+      "id": 4
+    },
+    {
+      "name": "Killing Curse",
+      "difficulty": "5",
+      "incantation": "Avada Kedavra",
+      "description": "Kills the target",
+      "id": 5
+    },
+    {
+      "name": "Imperius Curse",
+      "difficulty": "4",
+      "incantation": "Imperio",
+      "description": "Forces someone to do something against their will",
+      "id": 6
+    },
+    {
+      "name": "Cruciatus Curse",
+      "difficulty": "4",
+      "incantation": "Crucio",
+      "description": "Torture Spell",
+      "id": 7
+    }
+  ]
+}

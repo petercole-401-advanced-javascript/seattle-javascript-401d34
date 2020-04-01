@@ -40,7 +40,7 @@ const Voter = ({
         </thead>
         <tbody>
           {candidates.map(person => (
-            <tr key={person.name}>
+            <tr key={person.id}>
               <td>{person.name}</td>
               <td>{person.votes}</td>
               <td>

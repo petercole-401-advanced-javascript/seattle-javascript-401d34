@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import cookie from 'react-cookies'
 import jwt from 'jsonwebtoken'
 
@@ -6,23 +6,12 @@ export const LoginContext = React.createContext()
 
 const API = 'http://localhost:3333'
 
-class DuAuthMich extends React.Component {
-  constructor () {
-    super()
-    this.state = {
-      loggedIn: false,
-      user: {},
-      login: this.login,
-      logout: this.logout
-    }
-  }
+function DuAuthMich (props) {
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [user, setUser] = useState({})
 
-  setLoginState = (loggedIn, token, user) => {
-    this.setState({ loggedIn, token, user })
-    cookie.save('auth', token || '')
-  }
-
-  login = async (username, password) => {
+  async function login (credentials) {
+    const { username, password } = credentials
     try {
       const raw = await fetch(`${API}/signin`, {
         method: 'post',
@@ -33,38 +22,42 @@ class DuAuthMich extends React.Component {
       })
       const response = await raw.json()
       const token = response.token
-      this.validateToken(token)
+      validateToken(token)
     } catch (error) {
       console.error(error)
     }
   }
 
-  validateToken = token => {
+  async function logout () {
+    setLoginState(false, null, {})
+  }
+
+  const setLoginState = useCallback(function (loggedIn, token, user) {
+    setLoggedIn(loggedIn)
+    setUser(user)
+    cookie.save('auth', token || '')
+  }, [setLoggedIn, setUser])
+
+  const validateToken = useCallback(async function (token) {
     try {
       const user = jwt.verify(token, "fine, keep your secrets")
-      this.setLoginState(true, token, user)
+      setLoginState(true, token, user)
     } catch (error) {
-      this.setLoginState(false, null, {})
+      setLoginState(false, null, {})
       console.error('Token validation error:', error)
     }
-  }
+  }, [setLoginState])
 
-  logout = () => {
-    this.setLoginState(false, null, {})
-  }
-
-  componentDidMount () {
+  useEffect(() => {
     const cookieToken = cookie.load('auth')
-    if (cookieToken) this.validateToken(cookieToken)
-  }
+    if (cookieToken) validateToken(cookieToken)
+  }, [validateToken])
 
-  render () {
-    return (
-      <LoginContext.Provider value={this.state}>
-        {this.props.children}
-      </LoginContext.Provider>
-    )
-  }
+  return (
+    <LoginContext.Provider value={{ loggedIn, user, login, logout }}>
+      {props.children}
+    </LoginContext.Provider>
+  )
 }
 
 export default DuAuthMich

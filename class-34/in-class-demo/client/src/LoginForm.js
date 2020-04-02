@@ -1,59 +1,30 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { LoginContext } from './context'
-import If from './If'
+import useForm from './useForm'
 
-class LoginForm extends React.Component {
-  static contextType = LoginContext
-  constructor () {
-    super()
-    this.state = {
-      username: '',
-      password: ''
-    }
-  }
+function LoginForm () {
+  const { loggedIn, login, logout } = useContext(LoginContext)
+  const { handleSubmit, handleTextInput } = useForm(login)
 
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
-
-  handleSubmit = e => {
-    e.preventDefault()
-    this.context.login(this.state.username, this.state.password)
-    this.setState({
-      username: '',
-      password: ''
-    })
-  }
-
-  render () {
-    return (
-      <>
-        <If condition={this.context.loggedIn}>
-          <button onClick={this.context.logout}>Log Out</button>
-        </If>
-
-        <If condition={!this.context.loggedIn}>
-          <form onSubmit={this.handleSubmit}>
-            <input
-              type="text"
-              placeholder="Username"
-              name="username"
-              onChange={this.handleChange}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              onChange={this.handleChange}
-            />
-            <button value="submit">Log In</button>
-          </form>
-        </If>
-      </>
+  return loggedIn
+    ? <button onClick={logout}>Log Out</button>
+    : (
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="username"
+          placeholder="username"
+          {...handleTextInput}
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="password"
+          {...handleTextInput}
+        />
+        <button value="submit">Log In</button>
+      </form>
     )
-  }
 }
 
 export default LoginForm

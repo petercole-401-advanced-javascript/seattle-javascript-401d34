@@ -1,0 +1,44 @@
+{
+  "candidates": [
+    {
+      "name": "Tyler",
+      "votes": 0,
+      "id": 1
+    },
+    {
+      "name": "Andrew",
+      "votes": 0,
+      "id": 2
+    },
+    {
+      "name": "Kevin",
+      "votes": 0,
+      "id": 3
+    },
+    {
+      "name": "John Cena",
+      "votes": 0,
+      "id": 4
+    },
+    {
+      "name": "Articuno",
+      "votes": 0,
+      "id": 5
+    },
+    {
+      "name": "Zapdos",
+      "votes": 0,
+      "id": 6
+    },
+    {
+      "name": "Moltres",
+      "votes": 0,
+      "id": 7
+    },
+    {
+      "name": "Steve Jobs",
+      "votes": 0,
+      "id": 8
+    }
+  ]
+}

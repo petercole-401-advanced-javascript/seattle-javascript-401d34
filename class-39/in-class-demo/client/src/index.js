@@ -3,10 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
+import { CookiesProvider } from 'react-cookie';
+import { Provider } from 'react-redux';
+import store from '../src/store';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <CookiesProvider>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </CookiesProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

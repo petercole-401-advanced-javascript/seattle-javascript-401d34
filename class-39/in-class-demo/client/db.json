@@ -39,6 +39,11 @@
       "name": "Steve Jobs",
       "votes": 0,
       "id": 8
+    },
+    {
+      "name": "Horsey Guy",
+      "votes": 0,
+      "id": 9
     }
   ]
 }

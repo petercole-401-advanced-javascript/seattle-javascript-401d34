@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Form, Button } from 'react-bootstrap';
 import * as actions from '../../actions';
+import { useMount } from 'react-use';
 
 const mapStateToProps = state => {
   return {
@@ -12,16 +13,28 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   logout: actions.userLogOut,
-  login: actions.userLogIn
+  login: actions.userLogIn,
+  jwtLogin: actions.jwtLogin
 };
 
-const Login = ({ auth, logout, login }) => {
+const Login = ({ auth, cookies, logout, login, jwtLogin }) => {
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = data => {
     login(data.username, data.password);
     reset();
   };
+
+  useMount(() => {
+    if (cookies.get('auth') !== '') {
+      jwtLogin(cookies.get('auth'));
+    }
+  });
+
+  useEffect(() => {
+    if (cookies.get('auth') === auth.token) return;
+    cookies.set('auth', auth.token, { path: '/' });
+  }, [cookies, auth.token]);
 
   const LoginForm = (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -42,7 +55,6 @@ const Login = ({ auth, logout, login }) => {
   );
 
   const LogoutButton = <Button onClick={logout}>Log Out</Button>;
-
   return auth.loggedIn ? LogoutButton : LoginForm;
 };
 

@@ -66,13 +66,21 @@ export function userLogIn(username, password) {
     });
     const response = await raw.json();
     const user = verifyToken(response.token);
-    dispatch(userLogInAction(user));
+    dispatch(userLogInAction(user, response.token));
   };
 }
 
-function userLogInAction(user) {
+export function jwtLogin(token) {
+  return async dispatch => {
+    const user = verifyToken(token);
+    dispatch(userLogInAction(user, token));
+  };
+}
+
+function userLogInAction(user, token) {
   return {
     type: 'USER_LOG_IN',
-    payload: user
+    user,
+    token
   };
 }

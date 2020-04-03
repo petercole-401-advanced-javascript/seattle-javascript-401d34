@@ -1,25 +1,28 @@
 import React from 'react';
 import './App.scss';
 import { Container } from 'react-bootstrap';
+import { Provider } from 'react-redux';
+import store from '../../store';
 import Login from '../Login';
 import Voter from '../Voter';
 import AddCandidate from '../AddCandidate';
 import Auth from '../Auth';
-import { withCookies } from 'react-cookie';
 
-const App = ({ cookies }) => {
+function App() {
   return (
-    <Container className="App">
-      <h1>Vote!</h1>
-      <Login cookies={cookies} />
-      <Auth>
-        <Voter />
-        <Auth permission="create">
-          <AddCandidate />
+    <Provider store={store}>
+      <Container className="App">
+        <h1>Vote!</h1>
+        <Login />
+        <Auth>
+          <Voter />
+          <Auth permission="create">
+            <AddCandidate />
+          </Auth>
         </Auth>
-      </Auth>
-    </Container>
+      </Container>
+    </Provider>
   );
-};
+}
 
-export default withCookies(App);
+export default App;

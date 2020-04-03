@@ -4,23 +4,23 @@ import verifyToken from '../lib/verifyToken';
 export function increment(name) {
   return {
     type: 'INCREMENT',
-    payload: name
+    payload: name,
   };
 }
 
 export function decrement(name) {
   return {
     type: 'DECREMENT',
-    payload: name
+    payload: name,
   };
 }
 
 export function addCandidate(name) {
-  return async dispatch => {
+  return async (dispatch) => {
     const raw = await fetch('http://localhost:3001/candidates', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name, votes: 0 })
+      body: JSON.stringify({ name: name, votes: 0 }),
     });
     const response = await raw.json();
     return dispatch(addCandidateAction(response));
@@ -30,12 +30,12 @@ export function addCandidate(name) {
 function addCandidateAction(candidate) {
   return {
     type: 'ADD_CANDIDATE',
-    payload: candidate
+    payload: candidate,
   };
 }
 
 export function fetchAllCandidates() {
-  return async dispatch => {
+  return async (dispatch) => {
     const raw = await fetch('http://localhost:3001/candidates');
     const data = await raw.json();
     return dispatch(fetchAllCandidatesAction(data));
@@ -45,24 +45,24 @@ export function fetchAllCandidates() {
 function fetchAllCandidatesAction(data) {
   return {
     type: 'FETCH_ALL_CANDIDATES',
-    payload: data
+    payload: data,
   };
 }
 
 export function userLogOut() {
   return {
-    type: 'USER_LOG_OUT'
+    type: 'USER_LOG_OUT',
   };
 }
 
 export function userLogIn(username, password) {
-  return async dispatch => {
+  return async (dispatch) => {
     const raw = await fetch('http://localhost:3333/signin', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Basic ${btoa(`${username}:${password}`)}`
-      }
+        Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+      },
     });
     const response = await raw.json();
     const user = verifyToken(response.token);
@@ -71,9 +71,9 @@ export function userLogIn(username, password) {
 }
 
 export function jwtLogin(token) {
-  return async dispatch => {
+  return async (dispatch) => {
     const user = verifyToken(token);
-    dispatch(userLogInAction(user, token));
+    if (user) dispatch(userLogInAction(user, token));
   };
 }
 
@@ -81,6 +81,6 @@ function userLogInAction(user, token) {
   return {
     type: 'USER_LOG_IN',
     user,
-    token
+    token,
   };
 }

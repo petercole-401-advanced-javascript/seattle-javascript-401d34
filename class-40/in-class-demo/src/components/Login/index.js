@@ -3,38 +3,38 @@ import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Form, Button } from 'react-bootstrap';
 import * as actions from '../../actions';
-import { useMount } from 'react-use';
+import { useCookie, useMount } from 'react-use';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    auth: state.auth
+    auth: state.auth,
   };
 };
 
 const mapDispatchToProps = {
   logout: actions.userLogOut,
   login: actions.userLogIn,
-  jwtLogin: actions.jwtLogin
+  jwtLogin: actions.jwtLogin,
 };
 
-const Login = ({ auth, cookies, logout, login, jwtLogin }) => {
+const Login = ({ auth, jwtLogin, logout, login }) => {
+  const [authCookie, updateAuthCookie] = useCookie('auth');
   const { register, handleSubmit, reset } = useForm();
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     login(data.username, data.password);
     reset();
   };
 
   useMount(() => {
-    if (cookies.get('auth') !== '') {
-      jwtLogin(cookies.get('auth'));
-    }
+    // if we already have a saved cookie, log in with that auth token
+    if (authCookie) jwtLogin(authCookie);
   });
 
   useEffect(() => {
-    if (cookies.get('auth') === auth.token) return;
-    cookies.set('auth', auth.token, { path: '/' });
-  }, [cookies, auth.token]);
+    // if our saved cookie doesn't match the current auth token, update the cookie
+    if (authCookie !== auth.token) updateAuthCookie(auth.token);
+  }, [auth.token, authCookie, updateAuthCookie]);
 
   const LoginForm = (
     <Form onSubmit={handleSubmit(onSubmit)}>

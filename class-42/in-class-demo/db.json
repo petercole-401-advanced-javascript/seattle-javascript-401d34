@@ -1,0 +1,24 @@
+{
+  "entries": [
+    {
+      "id": "1",
+      "category": "tech",
+      "text": "React Native is pretty darn cool! I hope to continue to learn it blah blah blah blah blah"
+    },
+    {
+      "id": "2",
+      "category": "sports",
+      "text": "The best place to go trout fishing in the Yukon Territory is in the Liard River."
+    },
+    {
+      "id": "3",
+      "category": "sports",
+      "text": "Since there are no live sports happening right now, you should all check out Jelle's Marble Runs on YouTube for the very latest in marble sports"
+    },
+    {
+      "category": "tech",
+      "text": "I hate both iOS and Android",
+      "id": "ffkAve1"
+    }
+  ]
+}
